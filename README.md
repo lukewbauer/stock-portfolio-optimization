@@ -1,8 +1,9 @@
-Step one: clone the path: https://github.com/lukewbauer/stock-portfolio-optimization
+**###Step one:** clone the path: https://github.com/lukewbauer/stock-portfolio-optimization
+**##Step two:**
 import the requirements: import sys
 import os
  
-# Install idaes-pse if running in Google Colab
+**# Install idaes-pse if running in Google Colab
 if 'google.colab' in sys.modules:
     print('Installing idaes-pse...')
     !pip install idaes-pse --pre
@@ -22,3 +23,4 @@ import idaes.core as idaes_pse # Assuming idaes-pse is meant to be imported this
 from pyomo.environ import SolverFactory
 solver = SolverFactory('ipopt')
 %cd ..
+**##Step Three**: Run main.py
