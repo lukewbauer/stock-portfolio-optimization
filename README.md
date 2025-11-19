@@ -1,5 +1,7 @@
 **###Step one:** clone the path: https://github.com/lukewbauer/stock-portfolio-optimization
 **##Step two:**
+
+```python
 import the requirements: import sys
 import os
  
@@ -23,4 +25,6 @@ import idaes.core as idaes_pse # Assuming idaes-pse is meant to be imported this
 from pyomo.environ import SolverFactory
 solver = SolverFactory('ipopt')
 %cd ..
+```
+
 **##Step Three**: Run main.py
