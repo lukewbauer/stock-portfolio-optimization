@@ -16,6 +16,21 @@ def full_portfolio_pipeline(
     from scipy.optimize import minimize
     import yfinance as yf
 
+    # --- NEW (minimal): safe display support ---
+    try:
+        from IPython.display import display as _ip_display
+        def _display_df(df, n=5, title=None):
+            if title:
+                print(title)
+            _ip_display(df.head(n))
+    except Exception:
+        def _display_df(df, n=5, title=None):
+            if title:
+                print(title)
+            # nice plain-text preview if not in a notebook
+            print(df.head(n).to_string())
+    # ------------------------------------------
+
     # ============================
     # CREATE OUTPUT FOLDER
     # ============================
@@ -54,8 +69,7 @@ def full_portfolio_pipeline(
     for t in tickers[1:]:
         prep_data[t] = prices[t]['Adj Close']
 
-    print("=== Adjusted Close Prices ===")
-    display(prep_data.head())
+    _display_df(prep_data, title="=== Adjusted Close Prices ===")
 
     # Save price data to CSV
     prep_data.to_csv(
@@ -95,9 +109,9 @@ def full_portfolio_pipeline(
     # ============================
     # 5. MONTHLY RETURNS
     # ============================
-    monthly_returns = prep_data.resample('ME').ffill().pct_change().dropna()
-    print("=== Monthly Returns ===")
-    display(monthly_returns.head())
+    # CHANGED: 'ME' -> 'M' (standard month-end alias; avoids errors on some pandas versions)
+    monthly_returns = prep_data.resample('M').ffill().pct_change().dropna()
+    _display_df(monthly_returns, title="=== Monthly Returns ===")
 
     # Save monthly returns to CSV
     monthly_returns.to_csv(
@@ -246,11 +260,8 @@ def full_portfolio_pipeline(
     # ============================
     # FINAL OUTPUT
     # ============================
-    print("\n=== First 5 Allocation Rows ===")
-    display(alloc_df.head())
-
-    print("\n=== First 5 Reward Rows ===")
-    display(reward_df.head())
+    _display_df(alloc_df, title="\n=== First 5 Allocation Rows ===")
+    _display_df(reward_df, title="\n=== First 5 Reward Rows ===")
 
     print(f"\nAll plots (JPG) and CSV files saved in: {output_dir}/")
 
