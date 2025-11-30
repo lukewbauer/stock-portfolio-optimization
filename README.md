@@ -28,4 +28,7 @@ solver = SolverFactory('ipopt')
 %cd ..
 ```
 
-**##Step Three**: Run main.py
+**##Step Three**: **run this code**
+
+os.chdir('/content/stock-portfolio-optimization')
+!python main.py
