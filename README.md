@@ -2,7 +2,8 @@
 **##Step two:**
 
 ```python
-import the requirements: import sys
+**##import the requirements:**
+ import sys
 import os
  
 **# Install idaes-pse if running in Google Colab
