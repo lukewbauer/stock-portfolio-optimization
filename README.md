@@ -6,7 +6,7 @@
  import sys
 import os
  
-**# Install idaes-pse if running in Google Colab
+# Install idaes-pse if running in Google Colab
 if 'google.colab' in sys.modules:
     print('Installing idaes-pse...')
     !pip install idaes-pse --pre
