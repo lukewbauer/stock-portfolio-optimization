@@ -1,4 +1,5 @@
 # Stock Portfolio Optimization 
+Scroll all the way down for HOW TO USE
 
 This repository contains a two-part project for stock portfolio optimization:
 
