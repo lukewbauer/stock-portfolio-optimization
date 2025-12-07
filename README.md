@@ -539,3 +539,61 @@ The model assumes long-only positions (w_i >= 0).
 The paper trading backtest uses fixed weights from the training period; it does not rebalance or re-estimate dynamically.
 
 The Sharpe ratio uses 252 trading days per year.
+
+
+**## How to use**
+```
+# ==============================
+# 0️⃣ Repo configuration
+# ==============================
+
+REPO_URL = "https://github.com/lukewbauer/stock-portfolio-optimization.git"
+BRANCH = "v2"
+REPO_DIR = "stock-portfolio-optimization"  # default folder name after clone
+
+# ==============================
+# 1️⃣ Clone the v2 branch
+# ==============================
+
+import os
+
+# If the repo folder already exists (e.g., you re-ran the notebook), remove it
+if os.path.exists(REPO_DIR):
+    !rm -rf $REPO_DIR
+
+!git clone --branch $BRANCH --single-branch $REPO_URL
+%cd $REPO_DIR
+
+
+# ==============================
+# 2️⃣ Install Python dependencies
+# ==============================
+!pip install -r requirements.txt
+
+
+# ==============================
+# 3️⃣ Install Bonmin (COIN-OR) for Pyomo
+# ==============================
+!apt-get update -y
+!apt-get install -y coinor-libbonmin-dev coinor-libipopt-dev coinor-libcoinutils-dev \
+                   coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev coinor-libcbc-dev
+
+# Quick check: Bonmin CLI
+!bonmin -v || echo "⚠️ Bonmin CLI not found; check installation."
+
+import pyomo.environ as pyo
+solver = pyo.SolverFactory("bonmin")
+print("Bonmin available to Pyomo:", solver.available())
+
+
+# ==============================
+# 4️⃣ Run the whole pipeline
+# ==============================
+# main.py should:
+#  - import full_portfolio_pipeline and bonmin_portfolio_pipeline
+#  - run Part 1 + Part 2
+!python main.py
+
+print("\n✅ All done! Check any generated output folders (e.g., outputs/ or my_output_*).")
+```
+
