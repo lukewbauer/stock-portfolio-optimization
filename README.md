@@ -40,6 +40,8 @@ results_part1 = full_portfolio_pipeline(
 ```
 
 Outputs are written into my_output_part1/.
+
+
 **## 2. Part 2: Bonmin + Binary Variables + Paper Trading**
 
 File: portfolio_optimization.py
@@ -123,21 +125,22 @@ Compute equity curves, total returns, annualized returns, volatility, and Sharpe
 3.1 Python Packages
 
 Create a virtual environment (optional but recommended), then:
-
+```
 pip install numpy pandas matplotlib seaborn yfinance pyomo
-
+```
 3.2 Bonmin
 
 You also need a working installation of Bonmin accessible to Pyomo as a solver named bonmin. Installation steps depend on your OS (COIN-OR, conda, or system packages). Once installed, you should be able to run:
-
+```
 bonmin -v
-
+```
 
 from a terminal, and Pyomo's SolverFactory("bonmin") should succeed.
 
 4. Function: bonmin_portfolio_pipeline(...)
+```
 from portfolio_optimization import bonmin_portfolio_pipeline
-
+```
 Arguments
 
 tickers: list of stock tickers, e.g. ['AAPL','MSFT','NVDA','AMZN','GOOGL']
@@ -163,7 +166,7 @@ w_i <= max_weight
 min_assets (int): minimum number of stocks that must be selected
 
 sector_map (dict, optional): mapping ticker → sector/group, e.g.:
-
+```
 sector_map = {
     'AAPL': 'Tech',
     'MSFT': 'Tech',
@@ -171,7 +174,7 @@ sector_map = {
     'AMZN': 'Consumer',
     'GOOGL':'Tech'
 }
-
+```
 
 sector_min (int): minimum number of stocks per sector (if sector_map is provided)
 
@@ -408,9 +411,10 @@ Objective: maximize expected return (implemented as minimize -return)
 This corresponds to the “dump all in one stock” high-risk scenario.
 
 You can select any subset of scenarios:
-
+```
 scenarios=("low","medium","high")  # all three
 scenarios=("medium","high")        # only medium + high
+```
 
 7. Paper Trading / Backtesting
 
@@ -447,6 +451,7 @@ backtest_metrics.csv
 backtest_equity_curves.jpg
 
 8. Example Usage (Part 2)
+```
 from portfolio_optimization import bonmin_portfolio_pipeline
 
 sector_map = {
@@ -474,7 +479,7 @@ results_part2 = bonmin_portfolio_pipeline(
     solver_name='bonmin',
     solver_options=None
 )
-
+```
 Key Outputs in my_output_part2/
 
 all_price_data.csv – raw adjusted close prices
@@ -498,30 +503,30 @@ backtest_equity_curves.jpg – equity curves plot for all scenarios
 The code is generalized so users can change the logic directly via function parameters:
 
 Change min/max weights per asset:
-
+```
 min_weight=0.05, max_weight=0.25
-
+```
 
 Change min number of stocks:
-
+```
 min_assets=5
-
+```
 
 Change sector/group constraints:
-
+```
 sector_map = {...}
 sector_min = 2  # at least 2 stocks per sector
-
+```
 
 Change which scenarios to run:
-
+```
 scenarios=("low","high")
-
+```
 
 Change low-risk return floor:
-
+```
 return_floor_low=0.015
-
+```
 
 For more advanced customization (e.g., “at most 2 stocks from sector X”, sector caps, etc.), you can extend the Pyomo model in _solve_bonmin_portfolio(...) by adding new constraints.
 
