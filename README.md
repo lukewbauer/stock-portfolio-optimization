@@ -546,15 +546,14 @@ The Sharpe ratio uses 252 trading days per year.
 # ==============================
 # 0️⃣ Repo configuration
 # ==============================
-
 REPO_URL = "https://github.com/lukewbauer/stock-portfolio-optimization.git"
 BRANCH = "v2"
-REPO_DIR = "stock-portfolio-optimization"  # default folder name after clone
+REPO_DIR = "stock-portfolio-optimization"  # folder name after clone
+
 
 # ==============================
 # 1️⃣ Clone the v2 branch
 # ==============================
-
 import os
 
 # If the repo folder already exists (e.g., you re-ran the notebook), remove it
@@ -567,33 +566,44 @@ if os.path.exists(REPO_DIR):
 
 # ==============================
 # 2️⃣ Install Python dependencies
+#    (IGNORE the broken requirements.txt)
 # ==============================
-!pip install -r requirements.txt
+!pip install numpy pandas matplotlib seaborn yfinance pyomo idaes-pse
 
 
 # ==============================
-# 3️⃣ Install Bonmin (COIN-OR) for Pyomo
+# 3️⃣ Install IDAES solver binaries (includes Bonmin)
 # ==============================
-!apt-get update -y
-!apt-get install -y coinor-libbonmin-dev coinor-libipopt-dev coinor-libcoinutils-dev \
-                   coinor-libosi-dev coinor-libclp-dev coinor-libcgl-dev coinor-libcbc-dev
+# This downloads Ipopt, Cbc, Bonmin, Couenne, etc. into an IDAES bin directory.
+!idaes get-extensions
 
-# Quick check: Bonmin CLI
-!bonmin -v || echo "⚠️ Bonmin CLI not found; check installation."
+import subprocess, os, pyomo.environ as pyo
 
-import pyomo.environ as pyo
+# Find the IDAES bin directory and add it to PATH so Pyomo can see the solvers
+bin_dir = subprocess.check_output(["idaes", "bin-directory"]).decode().strip()
+os.environ["PATH"] += os.pathsep + bin_dir
+print("IDAES bin directory:", bin_dir)
+
+# Import idaes once so it also configures environment (per docs)
+import idaes
+
+# Verify Bonmin is visible to Pyomo
 solver = pyo.SolverFactory("bonmin")
 print("Bonmin available to Pyomo:", solver.available())
 
 
 # ==============================
-# 4️⃣ Run the whole pipeline
+# 4️⃣ (Optional) create outputs folders if your code expects them
 # ==============================
-# main.py should:
-#  - import full_portfolio_pipeline and bonmin_portfolio_pipeline
-#  - run Part 1 + Part 2
+os.makedirs("outputs", exist_ok=True)  # or outputs/part1, outputs/part2 if you want
+
+
+# ==============================
+# 5️⃣ Run the main script (Part 1 + Part 2)
+# ==============================
 !python main.py
 
-print("\n✅ All done! Check any generated output folders (e.g., outputs/ or my_output_*).")
+print("\n✅ All done! Check the generated output folders (e.g., outputs/ or my_output_*) for CSVs and plots.")
+
 ```
 
