@@ -5,11 +5,4 @@ seaborn>=0.13.0
 yfinance>=0.2.30
 pyomo>=6.7.0
 pyutilib>=6.0.0
-os
-if 'google.colab' in sys.modules:
-    !pip install idaes-pse --pre
-    !idaes get-extensions --to ./bin
-    os.environ['PATH'] += ':bin'
-
-
-
+idaes-pse>=2.9.0
