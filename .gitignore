@@ -1,9 +1,58 @@
+# -------------------------
+# Python cache / bytecode
+# -------------------------
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*.$py.class
+
+# -------------------------
+# Jupyter
+# -------------------------
 .ipynb_checkpoints/
+
+# -------------------------
+# Virtual environments
+# -------------------------
 .venv/
+venv/
+env/
+ENV/
+
+# -------------------------
+# Environment / secrets
+# -------------------------
 .env
+.env.*
+*.env
+
+# -------------------------
+# OS / editor junk
+# -------------------------
 .DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# -------------------------
+# Local binaries / tools
+# -------------------------
 bin/
+
+# -------------------------
+# Project outputs (Part 1 & Part 2)
+# -------------------------
+# any folder named like my_output, my_output_part1, my_output_part2, etc.
+my_output*/
+*/my_output*/
+
+# If you don't want to version generated data & plots, keep these.
+# Remove these lines if you DO want CSVs/plots tracked.
+*.csv
+*.jpg
+*.png
+*.pdf
+
+# -------------------------
+# Logs
+# -------------------------
+*.log
