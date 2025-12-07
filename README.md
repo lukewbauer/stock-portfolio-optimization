@@ -37,6 +37,8 @@ results_part1 = full_portfolio_pipeline(
     end='2025-01-01',
     output_dir='my_output_part1'
 )
+```
+
 Outputs are written into my_output_part1/.
 **## 2. Part 2: Bonmin + Binary Variables + Paper Trading**
 
