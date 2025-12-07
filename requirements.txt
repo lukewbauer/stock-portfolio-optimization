@@ -1,11 +1,10 @@
-numpy
-pandas
-matplotlib
-seaborn
-yfinance
-pyomo
-idaes-pse
-sys
+numpy>=1.24.0
+pandas>=1.5.0
+matplotlib>=3.7.0
+seaborn>=0.13.0
+yfinance>=0.2.30
+pyomo>=6.7.0
+pyutilib>=6.0.0
 os
 if 'google.colab' in sys.modules:
     !pip install idaes-pse --pre
